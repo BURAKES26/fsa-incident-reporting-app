@@ -70,7 +70,7 @@ import com.example.incidentscompose.ui.icons.LogoutIcon
 import com.example.incidentscompose.ui.icons.PersonIcon
 import com.example.incidentscompose.ui.icons.SettingsIcon
 import com.example.incidentscompose.ui.icons.UserAttributesIcon
-import com.example.incidentscompose.util.IncidentDisplayHelper.formatCategoryText
+import com.example.incidentscompose.util.IncidentDisplayHelper
 import com.example.incidentscompose.util.IncidentDisplayHelper.formatDateForDisplay
 import com.example.incidentscompose.util.IncidentDisplayHelper.getStatusColor
 import com.example.incidentscompose.viewmodel.MyIncidentListViewModel
@@ -505,7 +505,7 @@ private fun IncidentCard(
     }
 
     val formattedDate = formatDateForDisplay(incident.createdAt)
-    val formattedCategory = formatCategoryText(incident.category)
+    val formattedCategory = IncidentDisplayHelper.getCategoryLabel(incident.category)
 
     Surface(
         modifier = Modifier
@@ -552,7 +552,7 @@ private fun IncidentCard(
                         color = getStatusColor(incident.status).copy(alpha = 0.1f)
                     ) {
                         Text(
-                            text = incident.status.name,
+                            text = IncidentDisplayHelper.getStatusLabel(incident.status),
                             fontSize = 11.sp,
                             fontWeight = FontWeight.Bold,
                             color = getStatusColor(incident.status),

@@ -238,24 +238,29 @@ fun IncidentCard(
                         verticalAlignment = Alignment.CenterVertically
                     ) {
                         Text(
-                            text = IncidentDisplayHelper.formatCategoryText(incident.category),
+                            text = IncidentDisplayHelper.getCategoryLabel(incident.category),
                             style = MaterialTheme.typography.titleMedium,
                             fontWeight = FontWeight.Bold,
-                            color = MaterialTheme.colorScheme.onSurface
+                            color = MaterialTheme.colorScheme.onSurface,
+                            softWrap = true
                         )
-
-                        StatusBadge(status = incident.status)
                     }
 
                     Spacer(modifier = Modifier.height(8.dp))
 
-                    Text(
-                        text = incident.description,
-                        style = MaterialTheme.typography.bodyMedium,
-                        color = MaterialTheme.colorScheme.onSurfaceVariant,
-                        maxLines = 2,
-                        overflow = TextOverflow.Ellipsis
-                    )
+                    Row(
+                        modifier = Modifier.fillMaxWidth(),
+                        horizontalArrangement = Arrangement.SpaceBetween,
+                        verticalAlignment = Alignment.CenterVertically
+                    ) {
+                        Text(
+                            text = incident.description,
+                            style = MaterialTheme.typography.bodyMedium,
+                            color = MaterialTheme.colorScheme.onSurfaceVariant,
+                            maxLines = 2,
+                            overflow = TextOverflow.Ellipsis
+                        )
+                    }
 
                     Spacer(modifier = Modifier.height(12.dp))
 
@@ -264,9 +269,6 @@ fun IncidentCard(
                         horizontalArrangement = Arrangement.SpaceBetween,
                         verticalAlignment = Alignment.CenterVertically
                     ) {
-                        Row(
-                            horizontalArrangement = Arrangement.spacedBy(8.dp)
-                        ) {
                             PriorityChip(priority = incident.priority)
 
                             Surface(
@@ -280,7 +282,8 @@ fun IncidentCard(
                                     color = MaterialTheme.colorScheme.onSurfaceVariant
                                 )
                             }
-                        }
+
+                            StatusBadge(status = incident.status)
                     }
                 }
             }
@@ -297,31 +300,28 @@ fun StatusBadge(status: Status) {
         shape = RoundedCornerShape(8.dp)
     ) {
         Text(
-            text = status.name,
+            text = IncidentDisplayHelper.getStatusLabel(status),
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,
             color = statusColor,
-            fontSize = 11.sp
+            fontSize = 11.sp,
+            maxLines = 1,
+            minLines = 1,
         )
     }
 }
 
 @Composable
 fun PriorityChip(priority: Priority) {
-    val (backgroundColor, textColor) = when (priority) {
-        Priority.CRITICAL -> Color(0xFFD32F2F) to Color.White
-        Priority.HIGH -> Color(0xFFF57C00) to Color.White
-        Priority.NORMAL -> Color(0xFFFDD835) to Color.Black
-        Priority.LOW -> Color(0xFF66BB6A) to Color.White
-    }
+    val (backgroundColor, textColor) = IncidentDisplayHelper.getPriorityColors(priority)
 
     Surface(
         color = backgroundColor,
         shape = RoundedCornerShape(8.dp)
     ) {
         Text(
-            text = priority.name,
+            text = IncidentDisplayHelper.getPriorityLabel(priority),
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
             style = MaterialTheme.typography.labelSmall,
             fontWeight = FontWeight.Bold,

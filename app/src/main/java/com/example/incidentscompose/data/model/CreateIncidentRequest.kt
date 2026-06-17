@@ -8,5 +8,6 @@ data class CreateIncidentRequest(
     val description: String,
     val latitude: Double,
     val longitude: Double,
-    val priority: Priority = Priority.LOW
+    val priority: Priority = Priority.LOW,
+    val licensePlateNumber: String? = null
 )

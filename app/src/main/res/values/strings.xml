@@ -120,4 +120,27 @@
     <string name="location_permission_is_required_to_show_the_map">Location permission is required to show the map</string>
     <string name="grant_permission">Grant Permission</string>
     <string name="tap_on_the_map_to_select_a_new_location">Tap on the map to select a new location</string>
+    <string name="enter_license_plate_number">Enter license plate number</string>
+    <string name="license_plate_number_example" translatable="false">01-RDW-1</string>
+    <string name="vehicle_info_header">Vehicle info</string>
+    <string name="vehicle_info_license_plate_number">License plate number</string>
+    <string name="vehicle_info_vehicle_type">Vehicle type</string>
+    <string name="vehicle_info_brand">Brand</string>
+    <string name="vehicle_info_model">Model</string>
+    <string name="vehicle_info_color">Color</string>
+    <string name="CRIME">Crime</string>
+    <string name="ENVIRONMENT">Environment</string>
+    <string name="COMMUNAL">Communal</string>
+    <string name="TRAFFIC">Traffic</string>
+    <string name="OTHER">Other</string>
+    <string name="REPORTED">REPORTED</string>
+    <string name="ASSIGNED">ASSIGNED</string>
+    <string name="RESOLVED">RESOLVED</string>
+    <string name="LOW">LOW</string>
+    <string name="MEDIUM">MEDIUM</string>
+    <string name="HIGH">HIGH</string>
+    <string name="CRITICAL">CRITICAL</string>
+    <string name="USER">USER</string>
+    <string name="OFFICIAL">OFFICIAL</string>
+    <string name="ADMIN">ADMIN</string>
 </resources>

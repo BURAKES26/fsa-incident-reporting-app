@@ -121,4 +121,26 @@
     <string name="location_permission_is_required_to_show_the_map">Locatietoestemming is vereist om de kaart te tonen</string>
     <string name="grant_permission">Geef toestemming</string>
     <string name="tap_on_the_map_to_select_a_new_location">Tik op de kaart om een nieuwe locatie te selecteren</string>
+    <string name="enter_license_plate_number">Voer kenteken in</string>
+    <string name="vehicle_info_header">Voertuig informatie</string>
+    <string name="vehicle_info_license_plate_number">Kenteken</string>
+    <string name="vehicle_info_vehicle_type">Voertuigsoort</string>
+    <string name="vehicle_info_brand">Merk</string>
+    <string name="vehicle_info_model">Model</string>
+    <string name="vehicle_info_color">Kleur</string>
+    <string name="CRIME">Misdaad</string>
+    <string name="ENVIRONMENT">Omgeving</string>
+    <string name="COMMUNAL">Openbare Ruimte</string>
+    <string name="TRAFFIC">Verkeer</string>
+    <string name="OTHER">Anders</string>
+    <string name="REPORTED">GEMELD</string>
+    <string name="ASSIGNED">TOEGEWEZEN</string>
+    <string name="RESOLVED">OPGELOST</string>
+    <string name="LOW">LAAG</string>
+    <string name="MEDIUM">GEMIDDELD</string>
+    <string name="HIGH">HOOG</string>
+    <string name="CRITICAL">KRITIEK</string>
+    <string name="USER">GEBRUIKER</string>
+    <string name="OFFICIAL">AMBTENAAR</string>
+    <string name="ADMIN">BEHEERDER</string>
 </resources>

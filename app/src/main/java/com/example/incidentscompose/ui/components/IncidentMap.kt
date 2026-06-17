@@ -44,6 +44,7 @@ import com.example.incidentscompose.data.model.Priority
 import com.example.incidentscompose.data.model.Status
 import com.example.incidentscompose.ui.icons.CloseIcon
 import com.example.incidentscompose.ui.screens.management.PriorityChip
+import com.example.incidentscompose.util.IncidentDisplayHelper
 import com.example.incidentscompose.util.IncidentDisplayHelper.formatDateForDisplay
 import com.example.incidentscompose.util.LocationManager
 import com.example.incidentscompose.util.rememberPermissionLauncher
@@ -485,18 +486,14 @@ fun IncidentInfoCard(
 
 @Composable
 fun StatusChip(status: Status) {
-    val (backgroundColor, textColor) = when (status) {
-        Status.REPORTED -> Color(0xFFE3F2FD) to Color(0xFF1976D2)
-        Status.ASSIGNED -> Color(0xFFFFF3E0) to Color(0xFFF57C00)
-        Status.RESOLVED -> Color(0xFFE8F5E9) to Color(0xFF388E3C)
-    }
+    val statusColor = IncidentDisplayHelper.getStatusColor(status)
 
-    Surface(shape = RoundedCornerShape(16.dp), color = backgroundColor) {
+    Surface(shape = RoundedCornerShape(16.dp), color = statusColor.copy(alpha = 0.15f)) {
         Text(
-            text = status.name,
+            text = IncidentDisplayHelper.getStatusLabel(status),
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
             style = MaterialTheme.typography.labelMedium,
-            color = textColor,
+            color = statusColor,
             fontWeight = FontWeight.SemiBold
         )
     }
@@ -504,16 +501,11 @@ fun StatusChip(status: Status) {
 
 @Composable
 fun PriorityChip(priority: Priority) {
-    val (backgroundColor, textColor) = when (priority) {
-        Priority.LOW -> Color(0xFFE8F5E9) to Color(0xFF388E3C)
-        Priority.NORMAL -> Color(0xFFE3F2FD) to Color(0xFF1976D2)
-        Priority.HIGH -> Color(0xFFFFF3E0) to Color(0xFFF57C00)
-        Priority.CRITICAL -> Color(0xFFFFEBEE) to Color(0xFFC62828)
-    }
+    val (backgroundColor, textColor) = IncidentDisplayHelper.getPriorityColors(priority)
 
     Surface(shape = RoundedCornerShape(16.dp), color = backgroundColor) {
         Text(
-            text = priority.name,
+            text = IncidentDisplayHelper.getPriorityLabel(priority),
             modifier = Modifier.padding(horizontal = 12.dp, vertical = 6.dp),
             style = MaterialTheme.typography.labelMedium,
             color = textColor,
@@ -546,8 +538,9 @@ private fun createIncidentsGeoJson(incidents: List<IncidentResponse>): FeatureCo
     return FeatureCollection(features = features)
 }
 
+@Composable
 private fun formatCategory(category: IncidentCategory): String {
-    return category.name.lowercase().replaceFirstChar { it.uppercase() }
+    return IncidentDisplayHelper.getCategoryLabel(category)
 }
 
 private fun calculateInitialCamera(

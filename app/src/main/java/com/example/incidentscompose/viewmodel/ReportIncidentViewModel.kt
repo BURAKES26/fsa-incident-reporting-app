@@ -3,6 +3,7 @@ package com.example.incidentscompose.viewmodel
 import android.content.Context
 import androidx.lifecycle.viewModelScope
 import androidx.core.net.toUri
+import com.example.incidentscompose.data.api.VehicleApi
 import com.example.incidentscompose.data.model.*
 import com.example.incidentscompose.data.repository.IncidentRepository
 import com.example.incidentscompose.util.PhotoUtils
@@ -14,6 +15,9 @@ import kotlinx.coroutines.launch
 data class ReportIncidentUiState(
     val selectedCategory: IncidentCategory = IncidentCategory.COMMUNAL,
     val description: String = "",
+    val licensePlateNumber: String = "",
+    val vehicleInfo: VehicleInfo? = null,
+    val showVehicleInfoDialog: Boolean = false,
     val photos: List<String> = emptyList(),
     val latitude: Double? = null,
     val longitude: Double? = null,
@@ -27,7 +31,8 @@ data class ReportIncidentUiState(
 )
 
 class ReportIncidentViewModel(
-    private val repository: IncidentRepository
+    private val repository: IncidentRepository,
+    private val vehicleApi: VehicleApi
 ) : BaseViewModel() {
 
     private val _uiState = MutableStateFlow(ReportIncidentUiState())
@@ -38,6 +43,32 @@ class ReportIncidentViewModel(
 
     fun updateDescription(description: String) =
         _uiState.update { it.copy(description = description) }
+
+    fun updateLicensePlateNumber(licensePlateNumber: String) =
+        _uiState.update { it.copy(licensePlateNumber = licensePlateNumber) }
+
+    fun searchVehicleInfo() {
+        val licensePlate = _uiState.value.licensePlateNumber.uppercase()
+        if (licensePlate.length != 6) {
+            setError("License plate must be 6 characters")
+            return
+        }
+        
+        viewModelScope.launch {
+            withLoading {
+                val response = vehicleApi.getVehicleInfo(licensePlate)
+                if (response != null && response.value.isNotEmpty()) {
+                    _uiState.update { it.copy(vehicleInfo = response.value.first(), showVehicleInfoDialog = true, errorMessage = null) }
+                } else {
+                    setError("Vehicle not found")
+                }
+            }
+        }
+    }
+    
+    fun dismissVehicleInfoDialog() {
+        _uiState.update { it.copy(showVehicleInfoDialog = false) }
+    }
 
     fun addPhoto(uri: String) =
         _uiState.update { it.copy(photos = it.photos + uri) }
@@ -97,6 +128,14 @@ class ReportIncidentViewModel(
             return
         }
 
+        // Validate license plate number if category is TRAFFIC
+        if (state.selectedCategory == IncidentCategory.TRAFFIC && state.licensePlateNumber.isNotBlank()) {
+            if (state.licensePlateNumber.length != 6 || !state.licensePlateNumber.all { it.isLetterOrDigit() }) {
+                _uiState.update { it.copy(errorMessage = "License plate number must be 6 characters long and alphanumeric") }
+                return
+            }
+        }
+
         // Validate a location is selected:
         if (latitude == null || longitude == null) {
             _uiState.update { it.copy(errorMessage = "Please select a location") }
@@ -113,7 +152,8 @@ class ReportIncidentViewModel(
                             description = state.description,
                             latitude = latitude,
                             longitude = longitude,
-                            priority = Priority.LOW
+                            priority = Priority.LOW,
+                            licensePlateNumber = if (state.selectedCategory == IncidentCategory.TRAFFIC && state.licensePlateNumber.isNotBlank()) state.licensePlateNumber else null
                         )
                     )
 

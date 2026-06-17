@@ -40,6 +40,7 @@ val dataModule = module {
     single { AuthApi(get()) }
     single { UserApi(get(), get()) }
     single { IncidentApi(get(), get()) }
+    single { com.example.incidentscompose.data.api.VehicleApi(get()) }
     single { AuthRepository(get(), get()) }
     single { UserRepository(get()) }
     single { IncidentRepository(get()) }
@@ -50,7 +51,7 @@ val viewModelModule = module {
     viewModel { MyIncidentListViewModel (get(), get(), get(), get(), get()) }
     viewModel { MyIncidentDetailViewModel(get(), get()) }
     viewModel { RegisterViewModel(get()) }
-    viewModel { ReportIncidentViewModel(get()) }
+    viewModel { ReportIncidentViewModel(get(), get()) }
     viewModel { UserViewModel(get()) }
     viewModel { UserManagementViewModel(get(), get())}
     viewModel { IncidentManagementViewModel(get(), get())}

@@ -72,7 +72,8 @@ import com.example.incidentscompose.ui.icons.DeleteIcon
 import com.example.incidentscompose.ui.icons.LocationOnIcon
 import com.example.incidentscompose.ui.icons.PersonIcon
 import com.example.incidentscompose.util.ImageUrlHelper
-import com.example.incidentscompose.util.IncidentDisplayHelper.formatCategoryText
+import com.example.incidentscompose.util.IncidentDisplayHelper
+import com.example.incidentscompose.util.IncidentDisplayHelper.getCategoryLabel
 import com.example.incidentscompose.util.IncidentDisplayHelper.formatDateForDisplay
 import com.example.incidentscompose.util.IncidentDisplayHelper.getStatusColor
 import com.example.incidentscompose.viewmodel.IncidentDetailViewModel
@@ -433,7 +434,7 @@ private fun IncidentManagementHeaderCard(
                     border = BorderStroke(1.dp, Color(0xFFE5E7EB))
                 ) {
                     Text(
-                        text = formatCategoryText(incident.category),
+                        text = getCategoryLabel(incident.category),
                         fontSize = 18.sp,
                         fontWeight = FontWeight.Bold,
                         color = Color(0xFF111827),
@@ -458,8 +459,8 @@ private fun IncidentManagementHeaderCard(
                             .fillMaxWidth()
                             .clickable { priorityExpanded = true },
                         shape = RoundedCornerShape(12.dp),
-                        color = getPriorityColor(incident.priority).copy(alpha = 0.12f),
-                        border = BorderStroke(1.5.dp, getPriorityColor(incident.priority))
+                        color = IncidentDisplayHelper.getPriorityColors(incident.priority).first.copy(alpha = 0.12f),
+                        border = BorderStroke(1.5.dp, IncidentDisplayHelper.getPriorityColors(incident.priority).first)
                     ) {
                         Row(
                             modifier = Modifier
@@ -469,15 +470,15 @@ private fun IncidentManagementHeaderCard(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = incident.priority.name,
+                                text = IncidentDisplayHelper.getPriorityLabel(incident.priority),
                                 fontSize = 16.sp,
                                 fontWeight = FontWeight.Bold,
-                                color = getPriorityColor(incident.priority)
+                                color = IncidentDisplayHelper.getPriorityColors(incident.priority).first
                             )
                             Icon(
                                 imageVector = ArrowDropDownIcon,
                                 contentDescription = "Expand",
-                                tint = getPriorityColor(incident.priority)
+                                tint = IncidentDisplayHelper.getPriorityColors(incident.priority).first
                             )
                         }
                     }
@@ -491,8 +492,8 @@ private fun IncidentManagementHeaderCard(
                             DropdownMenuItem(
                                 text = {
                                     Text(
-                                        text = priority.name,
-                                        color = getPriorityColor(priority)
+                                        text = IncidentDisplayHelper.getPriorityLabel(priority),
+                                        color = IncidentDisplayHelper.getPriorityColors(priority).first
                                     )
                                 },
                                 onClick = {
@@ -544,7 +545,7 @@ private fun IncidentManagementHeaderCard(
                                         )
                                 )
                                 Text(
-                                    text = incident.status.name,
+                                    text = IncidentDisplayHelper.getStatusLabel(incident.status),
                                     fontSize = 16.sp,
                                     fontWeight = FontWeight.Bold,
                                     color = getStatusColor(incident.status)
@@ -567,7 +568,7 @@ private fun IncidentManagementHeaderCard(
                             DropdownMenuItem(
                                 text = {
                                     Text(
-                                        text = status.name,
+                                        text = IncidentDisplayHelper.getStatusLabel(status),
                                         color = getStatusColor(status)
                                     )
                                 },
@@ -1078,15 +1079,5 @@ private fun IncidentLocationCard(
                 )
             }
         }
-    }
-}
-
-@Composable
-private fun getPriorityColor(priority: Priority): Color {
-    return when (priority) {
-        Priority.LOW -> Color(0xFF10B981)
-        Priority.NORMAL -> Color(0xFFF59E0B)
-        Priority.HIGH -> Color(0xFFFF6B35)
-        Priority.CRITICAL -> (Color(0xFFDC2626))
     }
 }

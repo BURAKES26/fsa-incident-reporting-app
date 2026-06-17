@@ -33,6 +33,7 @@ import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.FilterChip
 import androidx.compose.material3.Icon
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.OutlinedTextFieldDefaults
@@ -53,6 +54,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
+import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
@@ -64,6 +66,7 @@ import androidx.lifecycle.compose.collectAsStateWithLifecycle
 import coil.compose.AsyncImage
 import com.example.incidentscompose.R
 import com.example.incidentscompose.data.model.IncidentCategory
+import com.example.incidentscompose.data.model.VehicleInfo
 import com.example.incidentscompose.ui.components.IncidentMap
 import com.example.incidentscompose.ui.components.LoadingOverlay
 import com.example.incidentscompose.ui.components.TopNavBar
@@ -71,12 +74,14 @@ import com.example.incidentscompose.ui.icons.AddIcon
 import com.example.incidentscompose.ui.icons.CheckCircleFilledIcon
 import com.example.incidentscompose.ui.icons.CloseIcon
 import com.example.incidentscompose.ui.icons.LocationOnFilledIcon
+import com.example.incidentscompose.ui.icons.SearchIcon
 import com.example.incidentscompose.ui.icons.WarningFilledIcon
 import com.example.incidentscompose.util.PhotoPermissionHandler
 import com.example.incidentscompose.util.PhotoUtils
 import com.example.incidentscompose.util.rememberPhotoPermissionLauncher
 import com.example.incidentscompose.viewmodel.ReportIncidentUiState
 import com.example.incidentscompose.viewmodel.ReportIncidentViewModel
+import com.example.incidentscompose.util.IncidentDisplayHelper
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -134,6 +139,7 @@ fun ReportIncidentScreen(
             )
         },
         onDismissPermissionWarning = { viewModel.dismissPermissionWarning() },
+        onDismissVehicleInfo = { viewModel.dismissVehicleInfoDialog() },
         onContinueAfterSuccess = {
             viewModel.dismissSuccessDialog()
             viewModel.resetForm()
@@ -162,6 +168,8 @@ fun ReportIncidentScreen(
                 isLoading = isLoading,
                 onCategorySelected = { viewModel.updateCategory(it) },
                 onDescriptionChange = { viewModel.updateDescription(it) },
+                onLicensePlateNumberChange = { viewModel.updateLicensePlateNumber(it) },
+                onSearchVehicle = { viewModel.searchVehicleInfo() },
                 onAddPhotoClick = {
                     if (photoPermissionHandler.hasPermissions()) {
                         viewModel.showImageSourceDialog()
@@ -192,6 +200,8 @@ private fun ReportIncidentContent(
     isLoading: Boolean,
     onCategorySelected: (IncidentCategory) -> Unit,
     onDescriptionChange: (String) -> Unit,
+    onLicensePlateNumberChange: (String) -> Unit,
+    onSearchVehicle: () -> Unit,
     onAddPhotoClick: () -> Unit,
     onRemovePhoto: (Uri) -> Unit,
     onUseCurrentLocation: () -> Unit,
@@ -216,6 +226,14 @@ private fun ReportIncidentContent(
             selectedCategory = uiState.selectedCategory,
             onCategorySelected = onCategorySelected
         )
+
+        if (uiState.selectedCategory == IncidentCategory.TRAFFIC) {
+            LicensePlateNumberInputCard(
+                licensePlateNumber = uiState.licensePlateNumber,
+                onLicensePlateNumberChange = onLicensePlateNumberChange,
+                onSearchClick = onSearchVehicle
+            )
+        }
 
         DescriptionInputCard(
             description = uiState.description,
@@ -254,6 +272,10 @@ private fun ReportIncidentContent(
 }
 
 @Composable
+fun IncidentCategory.displayName(): String {
+    return stringResource(titleRes)
+}
+@Composable
 private fun ReportIncidentDialogs(
     uiState: ReportIncidentUiState,
     onDismissImageSource: () -> Unit,
@@ -261,7 +283,14 @@ private fun ReportIncidentDialogs(
     onGalleryClick: () -> Unit,
     onDismissPermissionWarning: () -> Unit,
     onContinueAfterSuccess: () -> Unit,
+    onDismissVehicleInfo: () -> Unit,
 ) {
+    if (uiState.showVehicleInfoDialog && uiState.vehicleInfo != null) {
+        VehicleInfoDialog(
+            vehicleInfo = uiState.vehicleInfo,
+            onDismiss = onDismissVehicleInfo
+        )
+    }
     if (uiState.showImageSourceDialog) {
         ImageSourceDialog(
             onDismiss = onDismissImageSource,
@@ -290,7 +319,59 @@ private fun ReportIncidentDialogs(
     }
 }
 
-// Component Composable
+@Composable
+fun VehicleInfoDialog(
+    vehicleInfo: VehicleInfo,
+    onDismiss: () -> Unit
+) {
+    val colorMap = mapOf(
+        "ZWART" to Color(0xFF000000),
+        "WIT" to Color(0xFFFFFFFF),
+        "GRIJS" to Color(0xFF808080),
+        "BLAUW" to Color(0xFF0000FF),
+        "ROOD" to Color(0xFFFF0000),
+        "GEEL" to Color(0xFFFFD700),
+        "GROEN" to Color(0xFF008000),
+        "BRUIN" to Color(0xFFA52A2A),
+        "BEIGE" to Color(0xFFF5F5DC),
+        "ORANJE" to Color(0xFFFFA500),
+        "PAARS" to Color(0xFF800080),
+        "ROZE" to Color(0xFFFFC0CB),
+        "ZILVER" to Color(0xFFC0C0C0),
+        "GOUD" to Color(0xFFFFD700)
+    )
+    val color = colorMap[vehicleInfo.eerste_kleur] ?: Color.Transparent
+
+    Dialog(onDismissRequest = onDismiss) {
+        Surface(
+            modifier = Modifier
+                .fillMaxWidth()
+                .wrapContentHeight(),
+            shape = RoundedCornerShape(24.dp),
+            color = MaterialTheme.colorScheme.surface,
+            shadowElevation = 8.dp
+        ) {
+            Column(
+                modifier = Modifier.padding(24.dp),
+                verticalArrangement = Arrangement.spacedBy(16.dp)
+            ) {
+                Text(stringResource(R.string.vehicle_info_header), fontWeight = FontWeight.Bold, fontSize = 20.sp)
+                Text("${stringResource(R.string.vehicle_info_license_plate_number)}: ${vehicleInfo.kenteken}")
+                Text("${stringResource(R.string.vehicle_info_vehicle_type)}: ${vehicleInfo.voertuigsoort}")
+                Text("${stringResource(R.string.vehicle_info_brand)}: ${vehicleInfo.merk}")
+                Text("${stringResource(R.string.vehicle_info_model)}: ${vehicleInfo.handelsbenaming}")
+                Row(verticalAlignment = Alignment.CenterVertically, horizontalArrangement = Arrangement.spacedBy(8.dp)) {
+                    Text("${stringResource(R.string.vehicle_info_color)}:")
+                    Box(modifier = Modifier
+                        .size(24.dp)
+                        .background(color)
+                        .border(1.dp, Color.Black))
+                }
+                TextButton(onClick = onDismiss) { Text(stringResource(R.string.ok)) }
+            }
+        }
+    }
+}
 
 @Composable
 fun WarningBanner() {
@@ -368,8 +449,7 @@ fun CategorySelectionCard(
                         onClick = { onCategorySelected(category) },
                         label = {
                             Text(
-                                text = category.name.lowercase()
-                                    .replaceFirstChar { it.uppercase() },
+                                text = IncidentDisplayHelper.getCategoryLabel(category),
                                 fontWeight = if (isSelected) FontWeight.SemiBold else FontWeight.Normal
                             )
                         }
@@ -378,15 +458,61 @@ fun CategorySelectionCard(
             }
 
             Text(
-                text = when (selectedCategory) {
-                    IncidentCategory.CRIME -> stringResource(R.string.illegal_activities_and_safety_threats)
-                    IncidentCategory.ENVIRONMENT -> stringResource(R.string.nature_pollution_and_conservation_issues)
-                    IncidentCategory.COMMUNAL -> stringResource(R.string.shared_spaces_and_neighborhood_quality_of_life)
-                    IncidentCategory.TRAFFIC -> stringResource(R.string.roads_vehicles_and_transportation_safety)
-                    IncidentCategory.OTHER -> stringResource(R.string.any_issue_that_doesn_t_fit_the_other_categories)
-                },
+                text = IncidentDisplayHelper.getCategoryLabel(selectedCategory),
                 fontSize = 13.sp,
                 color = Color(0xFF656D76)
+            )
+        }
+    }
+}
+
+@Composable
+fun LicensePlateNumberInputCard(
+    licensePlateNumber: String,
+    onLicensePlateNumberChange: (String) -> Unit,
+    onSearchClick: () -> Unit
+) {
+    Card(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(16.dp, 8.dp),
+        shape = RoundedCornerShape(16.dp),
+        colors = CardDefaults.cardColors(
+            containerColor = MaterialTheme.colorScheme.surface
+        ),
+        border = BorderStroke(1.dp, Color(0xFFD0D7DE)),
+        elevation = CardDefaults.cardElevation(defaultElevation = 2.dp)
+    ) {
+        Column(
+            modifier = Modifier.padding(24.dp, 20.dp),
+            verticalArrangement = Arrangement.spacedBy(12.dp)
+        ) {
+            Text(
+                text = stringResource(R.string.enter_license_plate_number),
+                fontSize = 16.sp,
+                fontWeight = FontWeight.SemiBold,
+                color = MaterialTheme.colorScheme.onSurface
+            )
+
+            OutlinedTextField(
+                value = licensePlateNumber,
+                onValueChange = { if (it.length <= 8) onLicensePlateNumberChange(it) },
+                placeholder = { Text(stringResource(R.string.license_plate_number_example)) },
+                textStyle = TextStyle(color = Color.Black, fontSize = 24.sp, fontWeight = FontWeight.Bold),
+                trailingIcon = {
+                    IconButton(onClick = onSearchClick) {
+                        Icon(imageVector = SearchIcon, contentDescription = "Search")
+                    }
+                },
+                modifier = Modifier.fillMaxWidth(),
+                shape = RoundedCornerShape(8.dp),
+                colors = OutlinedTextFieldDefaults.colors(
+                    unfocusedContainerColor = Color.Yellow,
+                    focusedContainerColor = Color.Yellow,
+                    unfocusedBorderColor = Color.Black,
+                    focusedBorderColor = Color.Black
+                ),
+                singleLine = true,
             )
         }
     }

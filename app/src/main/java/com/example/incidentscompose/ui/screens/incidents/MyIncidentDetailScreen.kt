@@ -73,7 +73,8 @@ import com.example.incidentscompose.ui.icons.DescriptionIcon
 import com.example.incidentscompose.ui.icons.ImageIcon
 import com.example.incidentscompose.ui.icons.LocationOnIcon
 import com.example.incidentscompose.util.ImageUrlHelper
-import com.example.incidentscompose.util.IncidentDisplayHelper.formatCategoryText
+import com.example.incidentscompose.util.IncidentDisplayHelper
+import com.example.incidentscompose.util.IncidentDisplayHelper.getCategoryLabel
 import com.example.incidentscompose.util.IncidentDisplayHelper.formatDateForDisplay
 import com.example.incidentscompose.util.IncidentDisplayHelper.getStatusColor
 import com.example.incidentscompose.viewmodel.MyIncidentDetailViewModel
@@ -537,7 +538,7 @@ private fun IncidentHeaderCard(
                             verticalAlignment = Alignment.CenterVertically
                         ) {
                             Text(
-                                text = selectedCategory?.let { formatCategoryText(it) }
+                                text = selectedCategory?.let { getCategoryLabel(it) }
                                     ?: stringResource(R.string.select_category),
                                 fontSize = 18.sp,
                                 fontWeight = FontWeight.Bold,
@@ -558,7 +559,7 @@ private fun IncidentHeaderCard(
                     ) {
                         IncidentCategory.entries.forEach { category ->
                             DropdownMenuItem(
-                                text = { Text(formatCategoryText(category)) },
+                                text = { Text(getCategoryLabel(category)) },
                                 onClick = {
                                     onCategoryChange(category)
                                     expanded = false
@@ -588,7 +589,7 @@ private fun IncidentHeaderCard(
                             )
                     )
                     Text(
-                        text = incident.status.name,
+                        text = IncidentDisplayHelper.getStatusLabel(incident.status),
                         fontSize = 12.sp,
                         fontWeight = FontWeight.Bold,
                         color = getStatusColor(incident.status),

@@ -18,6 +18,7 @@ import com.example.incidentscompose.R
 import com.example.incidentscompose.data.model.Priority
 import com.example.incidentscompose.data.model.Status
 import com.example.incidentscompose.data.model.IncidentCategory
+import com.example.incidentscompose.util.IncidentDisplayHelper
 import com.example.incidentscompose.ui.icons.FilterListFilledIcon
 import com.example.incidentscompose.ui.icons.FilterListIcon
 import com.example.incidentscompose.ui.icons.SearchIcon
@@ -231,8 +232,14 @@ fun <T : Enum<T>> FilterChipRow(
                     onOptionsSelected(new)
                 },
                 label = {
+                    val label = when (option) {
+                        is Priority -> IncidentDisplayHelper.getPriorityLabel(option)
+                        is Status -> IncidentDisplayHelper.getStatusLabel(option)
+                        is IncidentCategory -> IncidentDisplayHelper.getCategoryLabel(option)
+                        else -> option.name.replace("_", " ").lowercase().replaceFirstChar { it.uppercase() }
+                    }
                     Text(
-                        text = option.name.replace("_", " ").lowercase().replaceFirstChar { it.uppercase() },
+                        text = label,
                         fontSize = 12.sp
                     )
                 }

@@ -69,6 +69,7 @@ import com.example.incidentscompose.ui.icons.CloseIcon
 import com.example.incidentscompose.ui.icons.DeleteFilledIcon
 import com.example.incidentscompose.ui.icons.SearchIcon
 import com.example.incidentscompose.viewmodel.UserManagementViewModel
+import com.example.incidentscompose.util.IncidentDisplayHelper
 import org.koin.compose.viewmodel.koinViewModel
 
 @Composable
@@ -406,7 +407,7 @@ fun UserCard(
                         .fillMaxWidth()
                         .clip(RoundedCornerShape(8.dp))
                         .clickable { expanded = true },
-                    color = selectedRole.color(),
+                    color = IncidentDisplayHelper.getRoleColor(selectedRole),
                     shape = RoundedCornerShape(8.dp)
                 ) {
                     Row(
@@ -415,7 +416,7 @@ fun UserCard(
                         horizontalArrangement = Arrangement.SpaceBetween
                     ) {
                         Text(
-                            text = selectedRole.name,
+                            text = IncidentDisplayHelper.getRoleLabel(selectedRole),
                             style = MaterialTheme.typography.bodySmall,
                             fontWeight = FontWeight.Medium,
                             color = Color.White,
@@ -448,13 +449,13 @@ fun UserCard(
                                         modifier = Modifier
                                             .size(12.dp)
                                             .background(
-                                                role.color(),
+                                                IncidentDisplayHelper.getRoleColor(role),
                                                 shape = CircleShape
                                             )
                                         )
                                     Spacer(modifier = Modifier.width(8.dp))
                                     Text(
-                                        text = role.name,
+                                        text = IncidentDisplayHelper.getRoleLabel(role),
                                         maxLines = 1,
                                         overflow = TextOverflow.Ellipsis,
                                         modifier = Modifier.weight(1f)
@@ -522,12 +523,4 @@ fun DeleteConfirmationDialog(
             }
         }
     )
-}
-
-fun Role.color(): Color {
-    return when (this) {
-        Role.ADMIN -> Color(0xFFE53935)
-        Role.OFFICIAL -> Color(0xFF1E88E5)
-        Role.USER -> Color(0xFF43A047)
-    }
 }
