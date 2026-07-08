@@ -28,6 +28,9 @@ object IncidentMapKey : NavKey
 object UserManagementKey : NavKey
 
 @Serializable
+object StatsKey : NavKey
+
+@Serializable
 data class UserProfileKey(val userJson: String) : NavKey
 
 @Serializable

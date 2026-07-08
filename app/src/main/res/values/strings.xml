@@ -67,7 +67,7 @@
     <string name="nature_pollution_and_conservation_issues">Nature, pollution and conservation issues</string>
     <string name="shared_spaces_and_neighborhood_quality_of_life">Shared spaces and neighborhood quality of life</string>
     <string name="roads_vehicles_and_transportation_safety">Roads, vehicles and transportation safety</string>
-    <string name="any_issue_that_doesn_t_fit_the_other_categories">Any issue that doesn\'t fit the other categories</string>
+    <string name="any_issue_that_doesn_t_fit_the_other_categories">Any issue that doesn’t fit the other categories</string>
     <string name="cancel">Cancel</string>
     <string name="ok">OK</string>
     <string name="delete">Delete</string>
@@ -107,6 +107,7 @@
     <string name="list">List</string>
     <string name="map">Map</string>
     <string name="users">Users</string>
+    <string name="stats">Statistics</string>
     <string name="search_incidents">Search incidents…</string>
     <string name="filter">Filter</string>
     <string name="filter_incidents">Filter Incidents</string>

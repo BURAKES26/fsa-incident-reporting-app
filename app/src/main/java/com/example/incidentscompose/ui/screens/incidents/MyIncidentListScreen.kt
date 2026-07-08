@@ -61,6 +61,7 @@ import com.example.incidentscompose.data.model.Status
 import com.example.incidentscompose.navigation.IncidentListKey
 import com.example.incidentscompose.navigation.IncidentMapKey
 import com.example.incidentscompose.navigation.MyIncidentListKey
+import com.example.incidentscompose.navigation.StatsKey
 import com.example.incidentscompose.navigation.UserManagementKey
 import com.example.incidentscompose.ui.components.BottomNavBar
 import com.example.incidentscompose.ui.components.LoadingOverlay
@@ -85,6 +86,7 @@ fun MyIncidentListScreen(
     onNavigateToIncidentList: () -> Unit,
     onNavigateToIncidentMap: () -> Unit,
     onNavigateToUserManagement: () -> Unit,
+    onNavigateToStats: () -> Unit,
     onLogout: () -> Unit,
     viewModel: MyIncidentListViewModel = koinViewModel(),
     backStack: NavBackStack<NavKey>
@@ -129,6 +131,7 @@ fun MyIncidentListScreen(
                             IncidentListKey -> onNavigateToIncidentList()
                             IncidentMapKey -> onNavigateToIncidentMap()
                             UserManagementKey -> onNavigateToUserManagement()
+                            StatsKey -> onNavigateToStats()
                             else -> {}
                         }
                     }

@@ -16,6 +16,7 @@ import com.example.incidentscompose.ui.screens.management.AllIncidentListScreen
 import com.example.incidentscompose.ui.screens.management.IncidentMapScreen
 import com.example.incidentscompose.ui.screens.management.UserManagementScreen
 import com.example.incidentscompose.ui.screens.incidents.ReportIncidentScreen
+import com.example.incidentscompose.ui.screens.stats.StatsScreen
 
 @Composable
 fun AppNavigation() {
@@ -76,6 +77,12 @@ fun AppNavigation() {
                         if (backStack.none { it is UserManagementKey }) {
                             backStack.add(UserManagementKey)
                         }
+                    },
+                    onNavigateToStats = {
+                        backStack.removeAll { it !is StatsKey }
+                        if (backStack.none { it is StatsKey }) {
+                            backStack.add(StatsKey)
+                        }
                     }
                 )
             }
@@ -126,6 +133,12 @@ fun AppNavigation() {
                         if (backStack.none { it is MyIncidentListKey }) {
                             backStack.add(MyIncidentListKey)
                         }
+                    },
+                    onNavigateToStats = {
+                        backStack.removeAll { it !is StatsKey }
+                        if (backStack.none { it is StatsKey }) {
+                            backStack.add(StatsKey)
+                        }
                     }
                 )
             }
@@ -152,6 +165,12 @@ fun AppNavigation() {
                         if (backStack.none { it is UserManagementKey }) {
                             backStack.add(UserManagementKey)
                         }
+                    },
+                    onNavigateToStats = {
+                        backStack.removeAll { it !is StatsKey }
+                        if (backStack.none { it is StatsKey }) {
+                            backStack.add(StatsKey)
+                        }
                     }
                 )
             }
@@ -176,6 +195,12 @@ fun AppNavigation() {
                             backStack.add(IncidentMapKey)
                         }
                     },
+                    onNavigateToStats = {
+                        backStack.removeAll { it !is StatsKey }
+                        if (backStack.none { it is StatsKey }) {
+                            backStack.add(StatsKey)
+                        }
+                    }
                 )
             }
 
@@ -183,6 +208,35 @@ fun AppNavigation() {
                 UserProfileScreen(
                     userJson = it.userJson,
                     onNavigateBack = { backStack.removeLastOrNull() }
+                )
+            }
+
+            entry<StatsKey> {
+                StatsScreen(
+                    onNavigateToMyIncidentList = {
+                        backStack.removeAll { it !is MyIncidentListKey }
+                        if (backStack.none { it is MyIncidentListKey }) {
+                            backStack.add(MyIncidentListKey)
+                        }
+                    },
+                    onNavigateToIncidentList = {
+                        backStack.removeAll { it !is IncidentListKey }
+                        if (backStack.none { it is IncidentListKey }) {
+                            backStack.add(IncidentListKey)
+                        }
+                    },
+                    onNavigateToIncidentMap = {
+                        backStack.removeAll { it !is IncidentMapKey }
+                        if (backStack.none { it is IncidentMapKey }) {
+                            backStack.add(IncidentMapKey)
+                        }
+                    },
+                    onNavigateToUserManagement = {
+                        backStack.removeAll { it !is UserManagementKey }
+                        if (backStack.none { it is UserManagementKey }) {
+                            backStack.add(UserManagementKey)
+                        }
+                    }
                 )
             }
 

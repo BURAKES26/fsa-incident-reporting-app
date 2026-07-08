@@ -59,11 +59,11 @@ object IncidentDisplayHelper {
     @Composable
     fun getCategoryLabel(category: IncidentCategory): String {
         val resId = when (category) {
-            IncidentCategory.CRIME -> R.string.illegal_activities_and_safety_threats
-            IncidentCategory.ENVIRONMENT -> R.string.nature_pollution_and_conservation_issues
-            IncidentCategory.COMMUNAL -> R.string.shared_spaces_and_neighborhood_quality_of_life
-            IncidentCategory.TRAFFIC -> R.string.roads_vehicles_and_transportation_safety
-            IncidentCategory.OTHER -> R.string.any_issue_that_doesn_t_fit_the_other_categories
+            IncidentCategory.CRIME -> R.string.CRIME
+            IncidentCategory.ENVIRONMENT -> R.string.ENVIRONMENT
+            IncidentCategory.COMMUNAL -> R.string.COMMUNAL
+            IncidentCategory.TRAFFIC -> R.string.TRAFFIC
+            IncidentCategory.OTHER -> R.string.OTHER
         }
         return stringResource(resId)
     }

@@ -8,58 +8,40 @@ import androidx.compose.ui.unit.dp
 
 val FilterListFilledIcon: ImageVector
     get() {
-        if (_FilterList != null) {
-            return _FilterList!!
+        if (_FilterListFilled != null) {
+            return _FilterListFilled!!
         }
-        _FilterList = ImageVector.Builder(
-            name = "FilterList",
+        _FilterListFilled = ImageVector.Builder(
+            name = "FilterListFilled",
             defaultWidth = 24.dp,
             defaultHeight = 24.dp,
             viewportWidth = 960f,
             viewportHeight = 960f
         ).apply {
             path(fill = SolidColor(Color.Black)) {
-                moveTo(440f, 720f)
-                quadToRelative(-17f, 0f, -28.5f, -11.5f)
-                reflectiveQuadTo(400f, 680f)
-                quadToRelative(0f, -17f, 11.5f, -28.5f)
-                reflectiveQuadTo(440f, 640f)
-                horizontalLineToRelative(80f)
-                quadToRelative(17f, 0f, 28.5f, 11.5f)
-                reflectiveQuadTo(560f, 680f)
-                quadToRelative(0f, 17f, -11.5f, 28.5f)
-                reflectiveQuadTo(520f, 720f)
-                horizontalLineToRelative(-80f)
+                moveTo(400f, 720f)
+                verticalLineToRelative(-80f)
+                horizontalLineToRelative(160f)
+                verticalLineToRelative(80f)
+                lineTo(400f, 720f)
                 close()
-                moveTo(280f, 520f)
-                quadToRelative(-17f, 0f, -28.5f, -11.5f)
-                reflectiveQuadTo(240f, 480f)
-                quadToRelative(0f, -17f, 11.5f, -28.5f)
-                reflectiveQuadTo(280f, 440f)
-                horizontalLineToRelative(400f)
-                quadToRelative(17f, 0f, 28.5f, 11.5f)
-                reflectiveQuadTo(720f, 480f)
-                quadToRelative(0f, 17f, -11.5f, 28.5f)
-                reflectiveQuadTo(680f, 520f)
-                lineTo(280f, 520f)
+                moveTo(240f, 520f)
+                verticalLineToRelative(-80f)
+                horizontalLineToRelative(480f)
+                verticalLineToRelative(80f)
+                lineTo(240f, 520f)
                 close()
-                moveTo(160f, 320f)
-                quadToRelative(-17f, 0f, -28.5f, -11.5f)
-                reflectiveQuadTo(120f, 280f)
-                quadToRelative(0f, -17f, 11.5f, -28.5f)
-                reflectiveQuadTo(160f, 240f)
-                horizontalLineToRelative(640f)
-                quadToRelative(17f, 0f, 28.5f, 11.5f)
-                reflectiveQuadTo(840f, 280f)
-                quadToRelative(0f, 17f, -11.5f, 28.5f)
-                reflectiveQuadTo(800f, 320f)
-                lineTo(160f, 320f)
+                moveTo(120f, 320f)
+                verticalLineToRelative(-80f)
+                horizontalLineToRelative(720f)
+                verticalLineToRelative(80f)
+                lineTo(120f, 320f)
                 close()
             }
         }.build()
 
-        return _FilterList!!
+        return _FilterListFilled!!
     }
 
 @Suppress("ObjectPropertyName")
-private var _FilterList: ImageVector? = null
+private var _FilterListFilled: ImageVector? = null

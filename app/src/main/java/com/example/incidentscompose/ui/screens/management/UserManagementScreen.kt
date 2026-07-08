@@ -61,6 +61,7 @@ import com.example.incidentscompose.data.model.UserResponse
 import com.example.incidentscompose.navigation.IncidentListKey
 import com.example.incidentscompose.navigation.IncidentMapKey
 import com.example.incidentscompose.navigation.MyIncidentListKey
+import com.example.incidentscompose.navigation.StatsKey
 import com.example.incidentscompose.navigation.UserManagementKey
 import com.example.incidentscompose.ui.components.BottomNavBar
 import com.example.incidentscompose.ui.components.LoadingOverlay
@@ -77,6 +78,7 @@ fun UserManagementScreen(
     onNavigateToMyIncidentList: () -> Unit,
     onNavigateToIncidentList: () -> Unit,
     onNavigateToIncidentMap: () -> Unit,
+    onNavigateToStats: () -> Unit,
     viewModel: UserManagementViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -126,6 +128,7 @@ fun UserManagementScreen(
                         IncidentListKey -> onNavigateToIncidentList()
                         IncidentMapKey -> onNavigateToIncidentMap()
                         MyIncidentListKey -> onNavigateToMyIncidentList()
+                        StatsKey -> onNavigateToStats()
                         else -> {}
                     }
                 }

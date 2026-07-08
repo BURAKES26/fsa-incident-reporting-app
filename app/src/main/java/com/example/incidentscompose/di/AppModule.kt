@@ -15,6 +15,7 @@ import com.example.incidentscompose.viewmodel.MyIncidentDetailViewModel
 import com.example.incidentscompose.viewmodel.MyIncidentListViewModel
 import com.example.incidentscompose.viewmodel.RegisterViewModel
 import com.example.incidentscompose.viewmodel.ReportIncidentViewModel
+import com.example.incidentscompose.viewmodel.StatsViewModel
 import com.example.incidentscompose.viewmodel.UserManagementViewModel
 import com.example.incidentscompose.viewmodel.UserViewModel
 import io.ktor.client.*
@@ -56,5 +57,6 @@ val viewModelModule = module {
     viewModel { UserManagementViewModel(get(), get())}
     viewModel { IncidentManagementViewModel(get(), get())}
     viewModel { IncidentDetailViewModel(get(), get(), get()) }
+    viewModel { StatsViewModel(get(), get()) }
 }
 

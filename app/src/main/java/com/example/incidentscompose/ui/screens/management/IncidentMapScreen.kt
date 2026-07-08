@@ -26,6 +26,7 @@ import com.example.incidentscompose.data.model.Status
 import com.example.incidentscompose.navigation.IncidentListKey
 import com.example.incidentscompose.navigation.IncidentMapKey
 import com.example.incidentscompose.navigation.MyIncidentListKey
+import com.example.incidentscompose.navigation.StatsKey
 import com.example.incidentscompose.navigation.UserManagementKey
 import com.example.incidentscompose.ui.components.BottomNavBar
 import com.example.incidentscompose.ui.components.FilterDialog
@@ -41,6 +42,7 @@ fun IncidentMapScreen(
     onNavigateToMyIncidentList: () -> Unit,
     onNavigateToIncidentList: () -> Unit,
     onNavigateToUserManagement: () -> Unit,
+    onNavigateToStats: () -> Unit,
     viewModel: IncidentManagementViewModel = koinViewModel()
 ) {
     val uiState by viewModel.uiState.collectAsStateWithLifecycle()
@@ -79,6 +81,7 @@ fun IncidentMapScreen(
         onNavigateToIncidentList = onNavigateToIncidentList,
         onNavigateToUserManagement = onNavigateToUserManagement,
         onNavigateToMyIncidentList = onNavigateToMyIncidentList,
+        onNavigateToStats = onNavigateToStats
     )
 }
 
@@ -101,6 +104,7 @@ private fun IncidentMapContent(
     onNavigateToIncidentList: () -> Unit,
     onNavigateToUserManagement: () -> Unit,
     onNavigateToMyIncidentList: () -> Unit,
+    onNavigateToStats: () -> Unit
 ) {
     var showFilterDialog by rememberSaveable { mutableStateOf(false) }
 
@@ -116,6 +120,7 @@ private fun IncidentMapContent(
                         IncidentListKey -> onNavigateToIncidentList()
                         UserManagementKey -> onNavigateToUserManagement()
                         MyIncidentListKey -> onNavigateToMyIncidentList()
+                        StatsKey -> onNavigateToStats()
                         else -> {}
                     }
                 }

@@ -83,6 +83,7 @@ dependencies {
     implementation(libs.androidx.datastore.preferences)
     // Coil
     implementation(libs.coil.compose)
+    implementation(libs.coil.network.ktor)
     //  The androidx.compose.material.icons library is no longer recommended for
     //  displaying Material Icons in Compose, as Material Symbols are the new way forward.
 //    implementation(libs.androidx.material.icons.core)
@@ -97,4 +98,9 @@ dependencies {
     implementation(libs.location.services)
     // DateTime
     implementation(libs.kotlinx.datetime)
+    // Lets-Plot
+    implementation(libs.letsPlotKotlin)
+    implementation(libs.letsPlotComposeAndroid)
+    implementation(libs.letsPlotCanvas)
+    implementation(libs.letsPlotRaster)
 }

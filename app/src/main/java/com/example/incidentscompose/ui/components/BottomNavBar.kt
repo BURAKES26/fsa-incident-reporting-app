@@ -22,11 +22,13 @@ import com.example.incidentscompose.ui.icons.AccountCircleIcon
 import com.example.incidentscompose.ui.icons.AccountCircleFilledIcon
 import com.example.incidentscompose.ui.icons.PeopleIcon
 import com.example.incidentscompose.ui.icons.PeopleFilledIcon
+import com.example.incidentscompose.ui.icons.MaterialSymbolsQueryStats
 
 import com.example.incidentscompose.navigation.IncidentMapKey
 import com.example.incidentscompose.navigation.MyIncidentListKey
 import com.example.incidentscompose.navigation.UserManagementKey
 import com.example.incidentscompose.navigation.IncidentListKey
+import com.example.incidentscompose.navigation.StatsKey
 import androidx.navigation3.runtime.NavKey
 import com.example.incidentscompose.data.model.Role
 import com.example.incidentscompose.ui.icons.ListFilledIcon
@@ -72,6 +74,14 @@ sealed class BottomNavItem(
         selectedIcon = AccountCircleFilledIcon,
         requiredRoles = setOf(Role.OFFICIAL, Role.ADMIN)
     )
+
+    data object Stats : BottomNavItem(
+        key = StatsKey,
+        titleResId = R.string.stats,
+        unselectedIcon = MaterialSymbolsQueryStats,
+        selectedIcon = MaterialSymbolsQueryStats,
+        requiredRoles = setOf(Role.OFFICIAL, Role.ADMIN)
+    )
 }
 
 
@@ -87,6 +97,7 @@ fun BottomNavBar(
     val navItems = listOf(
         BottomNavItem.List,
         BottomNavItem.Map,
+        BottomNavItem.Stats,
         BottomNavItem.Users,
         BottomNavItem.Profile
     ).filter { userRole in it.requiredRoles }

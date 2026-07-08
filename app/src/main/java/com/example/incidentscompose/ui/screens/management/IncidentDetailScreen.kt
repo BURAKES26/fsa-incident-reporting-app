@@ -56,7 +56,7 @@ import androidx.compose.ui.unit.sp
 import androidx.compose.ui.window.Dialog
 import androidx.compose.ui.window.DialogProperties
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
-import coil.compose.AsyncImage
+import coil3.compose.AsyncImage
 import com.example.incidentscompose.R
 import com.example.incidentscompose.data.model.IncidentResponse
 import com.example.incidentscompose.data.model.Priority

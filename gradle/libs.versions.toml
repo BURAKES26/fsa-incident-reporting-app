@@ -1,27 +1,30 @@
 [versions]
-agp = "9.0.0"
-kotlin = "2.3.0"
-coreKtx = "1.17.0"
+agp = "9.0.1"
+kotlin = "2.4.0"
+coreKtx = "1.19.0"
 junit = "4.13.2"
 junitVersion = "1.3.0"
 espressoCore = "3.7.0"
-lifecycleRuntimeKtx = "2.10.0"
-activityCompose = "1.12.2"
-composeBom = "2026.01.00"
-koin-bom = "4.2.0-beta2"
-ktor = "3.3.3"
-ktorClientMock = "3.3.3"
-datastore = "1.2.0"
-serialization = "1.9.0"
-coil = "2.7.0"
-mapLibre = "0.12.1"
-location = "21.3.0"
-kotlinxDatetime = "0.7.1"
+lifecycleRuntimeKtx = "2.11.0"
+activityCompose = "1.13.0"
+composeBom = "2026.06.01"
+koin-bom = "4.2.2"
+ktor = "3.5.1"
+ktorClientMock = "3.5.1"
+datastore = "1.2.1"
+serialization = "1.11.0"
+coil = "3.5.0"
+mapLibre = "0.13.0"
+location = "21.4.0"
+kotlinxDatetime = "0.8.0"
+letsPlot = "4.15.0"
+letsPlotCore = "4.11.0"
+letsPlotCompose = "3.2.2"
 
-nav3Core = "1.0.0"
-lifecycleViewmodelNav3 = "2.10.0"
-material3AdaptiveNav3 = "1.3.0-alpha06"
-kotlinxSerializationCore = "1.9.0"
+nav3Core = "1.1.4"
+lifecycleViewmodelNav3 = "2.11.0"
+material3AdaptiveNav3 = "1.3.0-rc01"
+kotlinxSerializationCore = "1.11.0"
 material3 = "1.4.0"
 foundation = "1.11.2"
 
@@ -57,12 +60,17 @@ koin-core = { module = "io.insert-koin:koin-core" }
 koin-android = { module = "io.insert-koin:koin-android" }
 koin-compose = { module = "io.insert-koin:koin-compose" }
 koin-compose-viewmodel = { module = "io.insert-koin:koin-compose-viewmodel" }
-coil-compose = { module = "io.coil-kt:coil-compose", version.ref = "coil" }
+coil-compose = { module = "io.coil-kt.coil3:coil-compose", version.ref = "coil" }
+coil-network-ktor = { module = "io.coil-kt.coil3:coil-network-ktor3", version.ref = "coil" }
 
 androidx-compose-material3 = { group = "androidx.compose.material3", name = "material3", version.ref = "material3" }
 maplibre-compose = { module = "org.maplibre.compose:maplibre-compose", version.ref ="mapLibre" }
 location-services = { module = "com.google.android.gms:play-services-location", version.ref ="location"}
 kotlinx-datetime = { group = "org.jetbrains.kotlinx", name = "kotlinx-datetime", version.ref = "kotlinxDatetime" }
+letsPlotKotlin = { module = "org.jetbrains.lets-plot:lets-plot-kotlin", version.ref = "letsPlot" }
+letsPlotComposeAndroid = { module = "org.jetbrains.lets-plot:lets-plot-compose-android", version.ref = "letsPlotCompose" }
+letsPlotCanvas = { module = "org.jetbrains.lets-plot:canvas", version.ref = "letsPlotCore" }
+letsPlotRaster = { module = "org.jetbrains.lets-plot:plot-raster", version.ref = "letsPlotCore" }
 androidx-compose-foundation = { group = "androidx.compose.foundation", name = "foundation", version.ref = "foundation" }
 
 # material icons are not recommended anymore (replaced by material symbols) - use Valkyrie plugin
@@ -71,7 +79,6 @@ androidx-compose-foundation = { group = "androidx.compose.foundation", name = "f
 
 [plugins]
 android-application = { id = "com.android.application", version.ref = "agp" }
-kotlin-android = { id = "org.jetbrains.kotlin.android", version.ref = "kotlin" }
 kotlin-compose = { id = "org.jetbrains.kotlin.plugin.compose", version.ref = "kotlin" }
 kotlin-serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 
